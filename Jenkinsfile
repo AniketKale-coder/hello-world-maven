@@ -26,7 +26,10 @@ pipeline {
                     def deployUrl = "${tomcatBaseUrl}/manager/text/deploy?path=/&war=file:${warFileName}"
                     def auth = 'admin:ani1234'  // Replace with your Tomcat manager username and password
 
-                    sh "curl -T target/${warFileName} --user ${auth} ${deployUrl}"
+                    def curlCommand = "curl -T target/${warFileName} --user ${auth} ${deployUrl}"
+                    def curlOutput = sh(script: curlCommand, returnStdout: true).trim()
+
+                    echo "curl command output:\n${curlOutput}"
                 }
             }
         }
