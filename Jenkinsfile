@@ -23,7 +23,7 @@ pipeline {
                     def tomcatBaseUrl = 'http://174.129.249.22:8080'  // Replace with your Tomcat server URL
                     def warFileName = 'hello-world.war'  // Replace with the name of your generated WAR file
 
-                    def deployUrl = "${tomcatBaseUrl}/manager/text/deploy?path=/&war=file:${warFileName}"
+                    def deployUrl = "${tomcatBaseUrl}/manager/deploy?path=/&war=file:${warFileName}"
                     def auth = 'tomcat:s3cret'  // Replace with your Tomcat manager username and password
 
                     def curlCommand = "curl -T target/${warFileName} --user ${auth} ${deployUrl}"
