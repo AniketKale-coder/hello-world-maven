@@ -25,9 +25,7 @@ pipeline {
                     def tomcatUsername = credentials.username
                     def tomcatPassword = credentials.password
                     def auth = "${tomcatUsername}:${tomcatPassword}" 
-                    
-                    echo "${tomcatUsername}:${tomcatPassword}
-                    
+
                     def tomcatBaseUrl = 'http://174.129.249.22:8080'  
                     def warFileName = 'hello-world.war'  
                   
