@@ -21,12 +21,12 @@ pipeline {
             steps {
                 script {
                     
-                    def credentials = credentials('af844fb0-271a-4056-9189-d9d53084e74f')  // Replace 'credential-id' with your actual credential ID
+                    def credentials = credentials('db2b9465-2df1-4930-b9a9-d49ab049031d')  // Replace 'credential-id' with your actual credential ID
                     def tomcatUsername = credentials.username
                     def tomcatPassword = credentials.password
                     def auth = "${tomcatUsername}:${tomcatPassword}" 
                     
-                    echo "${tomcatUsername}:${tomcatPassword}"
+                    echo "${tomcatUsername}:${tomcatPassword}
                     
                     def tomcatBaseUrl = 'http://174.129.249.22:8080'  
                     def warFileName = 'hello-world.war'  
