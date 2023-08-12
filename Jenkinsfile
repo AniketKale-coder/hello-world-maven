@@ -31,8 +31,8 @@ pipeline {
                   
                     def deployUrl = "${tomcatBaseUrl}/manager/text/deploy?path=/&war=file:${warFileName}"
                     def curlCommand = "curl -T target/hello-world.war --user ${auth} ${deployUrl}"
+                     echo "Executing curl command: ${curlCommand}"
                     def curlOutput = sh(script: curlCommand, returnStdout: true).trim()
-
                     echo "curl command output:\n${curlOutput}"
                 }
             }
