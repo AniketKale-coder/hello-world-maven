@@ -25,12 +25,13 @@ pipeline {
         }
         
         stage('Deploy') {
-            steps {
-                script {
-                    def warFile = findFiles(glob: '**/target/*.war')[0]
-                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} -T ${warFile} ${TOMCAT_URL}/manager/text/deploy?path=/myapp"
-                }
-            }
+    steps {
+        script {
+            def warFile = sh(script: 'find $WORKSPACE -name "*.war" | head -n 1', returnStdout: true).trim()
+            sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} -T ${warFile} ${TOMCAT_URL}/manager/text/deploy?path=/myapp"
         }
+    }
+}
+
     }
 }
