@@ -5,6 +5,7 @@ pipeline {
         TOMCAT_URL = 'http://174.129.249.22:8080'
         TOMCAT_USER = 'tomcatsc'
         TOMCAT_PASSWORD = 'ani1234'
+        MAVEN_TOOL = 'MyMaven'  // Replace with your Maven installation name
     }
     
     stages {
@@ -17,7 +18,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'Maven', type: 'maven'
+                    def mvnHome = tool name: MAVEN_TOOL, type: 'hudson.tasks.Maven$MavenInstallation'
                     sh "${mvnHome}/bin/mvn clean package"
                 }
             }
