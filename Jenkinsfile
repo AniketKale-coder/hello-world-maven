@@ -1,39 +1,33 @@
 pipeline {
     agent any
-
+    
+    environment {
+        TOMCAT_URL = 'http://174.129.249.22:8080'
+        TOMCAT_USER = 'tomcatsc'
+        TOMCAT_PASSWORD = 'ani1234'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
+        
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                script {
+                    def mvnHome = tool name: 'Maven', type: 'maven'
+                    sh "${mvnHome}/bin/mvn clean package"
+                }
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-         stage('Deploy') {
+        
+        stage('Deploy') {
             steps {
                 script {
-                    
-                    // def credentials = credentials('db2b9465-2df1-4930-b9a9-d49ab049031d')  // Replace 'credential-id' with your actual credential ID
-                    // def tomcatUsername = credentials.username
-                    // def tomcatPassword = credentials.password
-                    def auth = "tomcatsc:ani1234" 
-
-                    def tomcatBaseUrl = 'http://174.129.249.22:8080'  
-                    def warFileName = 'hello-world.war'  
-                  
-                    def deployUrl = "${tomcatBaseUrl}/manager/text/deploy?path=/&war=file:${warFileName}"
-                    def curlCommand = "curl -T target/hello-world.war --user ${auth} ${deployUrl}"
-                     echo "Executing curl command: ${curlCommand}"
-                    def curlOutput = sh(script: curlCommand, returnStdout: true).trim()
-                    echo "curl command output:\n${curlOutput}"
+                    def warFile = findFiles(glob: '**/target/*.war')[0]
+                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} -T ${warFile} ${TOMCAT_URL}/manager/text/deploy?path=/myapp"
                 }
             }
         }
